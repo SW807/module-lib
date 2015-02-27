@@ -1,4 +1,4 @@
-package dk.aau.cs.psylog.psylog_screenonoffmodule;
+package dk.aau.cs.psylog.module_lib;
 
 import android.app.Service;
 import android.content.Intent;
