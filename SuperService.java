@@ -1,0 +1,29 @@
+package dk.aau.cs.psylog.psylog_screenonoffmodule;
+
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
+
+public class SuperService extends Service{
+
+    protected ISensor sensor;
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        sensor.stopSensor();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flag, int startid)
+    {
+        sensor.startSensor();
+        //Skal være START_STICKY hvis servicen skal køre hele tiden, selv hvis den bliver dræbt. START_NOT_STICKY hjælper når man programmere.
+        return Service.START_NOT_STICKY;
+    }
+}
