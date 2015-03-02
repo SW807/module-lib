@@ -3,6 +3,7 @@
 	<xs:complexType name="module">
 		<xs:sequence>
 			<xs:element name="tables" type="tables" />
+			<xs:element name="dependencies" type="dependencies" minOccurs="0" maxOccurs="1" />
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="required" />
 		<xs:attribute name="version" type="xs:decimal" use="required" />
@@ -43,6 +44,27 @@
 		</xs:restriction>
 	</xs:simpleType>
 
-	<xs:element name="module" type="module" />
+	<xs:complexType name="dependencies">
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded" minOccurs="1">
+				<xs:element name="dependency" type="dependency"/>
+				<xs:element name="dependencyGroup" type="dependencyGroup"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
 
+	<xs:complexType name="dependency">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="optional" type="xs:boolean" default="false" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="dependencyGroup">
+		<xs:sequence>
+			<xs:element name="dependency" type="dependency" maxOccurs="unbounded" minOccurs="2"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="module" type="module" />
 </xs:schema>
