@@ -18,7 +18,13 @@ public abstract class SuperService extends Service{
     {
         sensor.stopSensor();
     }
-	
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        setSensor();
+    }
+
 	public abstract void setSensor();
 
     @Override
