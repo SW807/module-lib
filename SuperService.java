@@ -4,7 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-public class SuperService extends Service{
+public abstract class SuperService extends Service{
 
     protected ISensor sensor;
 
@@ -18,6 +18,8 @@ public class SuperService extends Service{
     {
         sensor.stopSensor();
     }
+	
+	public abstract void setSensor();
 
     @Override
     public int onStartCommand(Intent intent, int flag, int startid)
