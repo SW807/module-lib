@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DatabaseSchemaModel"
+    targetNamespace="http://olduwan.com/DatabaseSchemaModel.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://olduwan.com/DatabaseSchemaModel.xsd"
+    xmlns:dbsm="http://olduwan.com/DatabaseSchemaModel.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <!--Columns-->
+  
+  <xs:complexType name="parameterlessType"/>
+
+  <xs:complexType name="identity">
+    <xs:attribute name="seed" 
+             use="optional" type="xs:integer"/>
+    <xs:attribute name="increment" 
+             use="optional" type="xs:integer"/>
+    <xs:attribute name="notForReplication" 
+             use="optional" type="xs:boolean"/>
+  </xs:complexType>
+
+  <xs:group name="withIdentity">
+    <xs:sequence>
+      <xs:element name="identity" minOccurs="0" 
+                maxOccurs="1" type="identity"/>
+    </xs:sequence>
+  </xs:group>
+
+  <xs:attributeGroup name="withDefaultExpression">
+    <xs:attribute name="defaultExpression" 
+               use="optional" type="xs:string"/>
+  </xs:attributeGroup>
+  
+  <xs:complexType name="int">
+    <xs:group ref="withIdentity"/>
+    <xs:attributeGroup ref="withDefaultExpression"/>
+    <xs:attribute name="default" 
+          use="optional" type="xs:int"/>
+  </xs:complexType>
+
+  <xs:complexType name="bigint">
+    <xs:group ref="withIdentity"/>
+    <xs:attributeGroup ref="withDefaultExpression"/>
+    <xs:attribute name="default" 
+           use="optional" type="xs:long"/>
+  </xs:complexType>
+
+  <xs:complexType name="smallint">
+    <xs:group ref="withIdentity"/>
+    <xs:attributeGroup ref="withDefaultExpression"/>
+    <xs:attribute name="default" 
+           use="optional" type="xs:short"/>
+  </xs:complexType>
+
+  <xs:complexType name="tinyint">
+    <xs:group ref="withIdentity"/>
+    <xs:attributeGroup ref="withDefaultExpression"/>
+    <xs:attribute name="default" 
+           use="optional" type="xs:byte"/>
+  </xs:complexType>
+
+  <xs:complexType name="decimal">
+    <xs:attributeGroup ref="withDefaultExpression"/>
+    <xs:attribute name="precision" 
+           use="required" type="xs:integer"/>
+    <xs:attribute name="scale" 
+           use="required" type="xs:integer"/>
+    <xs:attribute name="default" 
+           use="optional" type="xs:decimal"/>
+  </xs:complexType>
+
+  <xs:complexType name="decimalScale0">
+    <xs:group ref="withIdentity"/>
+    <xs:attributeGroup ref="withDefaultExpression"/>
+    <xs:attribute name="precision" 
+           use="required" type="xs:integer"/>
+    <xs:attribute name="default" 
+           use="optional" type="xs:decimal"/>
+  </xs:complexType>
+
+  <xs:complexType name="bit">
+    <xs:attributeGroup ref="withDefaultExpression"/>
+    <xs:attribute name="default" 
+           use="optional" type="xs:boolean"/>
+  </xs:complexType>
+
+  <xs:simpleType name="moneydefault">
+    <xs:restriction base="xs:decimal">
+      <xs:totalDigits value="10"/>
+      <xs:fractionDigits value="4"/>
+      <xs:minInclusive value="-922337203685477.5808"/>
+      <xs:maxInclusive value="922337203685477.5807"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="money">
+    <xs:attributeGroup ref="withDefaultExpression"/>
+    <xs:attribute name="default" 
+           use="optional" type="moneydefault"/>
+  </xs:complexType>
+  
+  <xs:simpleType name="smallmoneyDefault">
+    <xs:restriction base="xs:decimal">
+      <xs:totalDigits value="10"/>
+      <xs:fractionDigits value="4"/>
+      <xs:minInclusive value="-214748.3648"/>
+      <xs:maxInclusive value="214748.3647"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:complexType name="smallmoney">
+    <xs:attributeGroup ref="withDefaultExpression"/>
+    <xs:attribute name="default" 
+           use="optional" type="smallmoneyDefault"/>
+  </xs:complexType>
+
+  <xs:simpleType name="mantissaBits">
+    <xs:restriction base="xs:integer">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="53"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="float">
+    <xs:attributeGroup ref="withDefaultExpression"/>
+    <xs:attribute name="mantissaBits" 
+            use="optional" type="mantissaBits"/>
+    <xs:attribute name="default" 
+            use="optional" type="xs:decimal"/>
+  </xs:complexType>
+
+  <xs:complexType name="real">
+    <xs:attributeGroup ref="withDefaultExpression"/>
+    <xs:attribute name="default" 
+           use="optional" type="xs:decimal"/>
+  </xs:complexType>
+
+  <xs:attributeGroup name="withStringDefault">
+    <xs:attribute name="default" 
+           use="optional" type="xs:string"/>
+  </xs:attributeGroup>
+
+  <xs:simpleType name="fractionalSecondsPrecision">
+    <xs:restriction base="xs:integer">
+      <xs:minInclusive value="0"/>
+      <xs:maxInclusive value="7"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="variablePrecisionTime">
+    <xs:attributeGroup ref="withDefaultExpression"/>
+    <xs:attributeGroup ref="withStringDefault"/>
+    <xs:attribute name="fractionalSecondsPrecision" 
+         use="optional" type="fractionalSecondsPrecision" />
+  </xs:complexType>
+
+  <xs:simpleType name="charInteger">
+    <xs:restriction base="xs:integer">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="8000"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="charLength">
+    <xs:union memberTypes="charInteger withMax"/>
+  </xs:simpleType>
+
+  <xs:complexType name="char">
+    <xs:attributeGroup ref="withDefaultExpression"/>
+    <xs:attributeGroup ref="withStringDefault"/>
+    <xs:attribute name="length" 
+          use="optional" type="charLength"/>
+  </xs:complexType>
+
+  <xs:complexType name="binary">
+    <xs:attribute name="length" 
+          use="optional" type="charLength"/>
+  </xs:complexType>
+
+  <xs:simpleType name="withMax">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="max"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ncharInteger">
+    <xs:restriction base="xs:integer">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="4000"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ncharLength">
+    <xs:union memberTypes="ncharInteger withMax"/>
+  </xs:simpleType>
+
+  <xs:complexType name="nchar">
+    <xs:attributeGroup ref="withDefaultExpression"/>
+    <xs:attributeGroup ref="withStringDefault"/>
+    <xs:attribute name="length" 
+          use="optional" type="ncharLength"/>
+  </xs:complexType>
+
+  <xs:simpleType name="GUID">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        The representation of a GUID.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="\{[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]
+                            {4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:complexType name="uniqueidentifier">
+    <xs:attributeGroup ref="withDefaultExpression"/>
+    <xs:attribute name="default" 
+            use="optional" type="GUID"/>
+  </xs:complexType>
+
+  <xs:complexType name="parameterlessStringType">
+    <xs:attributeGroup ref="withDefaultExpression"/>
+    <xs:attributeGroup ref="withStringDefault"/>
+  </xs:complexType>
+  
+  <xs:complexType name="column">
+    <xs:choice minOccurs="1" maxOccurs="1">
+      <!--Exact numerics-->
+      <xs:element name="bigint" type="bigint"/>
+      <xs:element name="numeric" type="decimal"/>
+      <xs:element name="numericScale0" type="decimalScale0"/>
+      <xs:element name="bit" type="bit"/>
+      <xs:element name="smallint" type="smallint"/>
+      <xs:element name="decimal" type="decimal"/>
+      <xs:element name="decimalScale0" type="decimalScale0"/>
+      <xs:element name="smallmoney" type="smallmoney"/>
+      <xs:element name="int" type="int"/>
+      <xs:element name="tinyint" type="tinyint"/>
+      <xs:element name="money" type="money"/>
+
+      <!--Approximate numerics-->
+      <xs:element name="float" type="float"/>
+      <xs:element name="real" type="real"/>
+
+      <!--Date and time-->
+      <xs:element name="date" type="parameterlessStringType"/>
+      <xs:element name="datetimeoffset" type="variablePrecisionTime"/>
+      <xs:element name="datetime2" type="variablePrecisionTime"/>
+      <xs:element name="smalldatetime" type="parameterlessStringType"/>
+      <xs:element name="datetime" type="parameterlessStringType"/>
+      <xs:element name="time" type="variablePrecisionTime"/>
+
+      <!--Character strings-->
+      <xs:element name="char" type="char"/>
+      <xs:element name="varchar" type="char"/>
+      <xs:element name="text" type="parameterlessStringType"/>
+
+      <!--Unicode character strings-->
+      <xs:element name="nchar" type="nchar"/>
+      <xs:element name="nvarchar" type="nchar"/>
+      <xs:element name="ntext" type="parameterlessStringType"/>
+
+      <!--Binary strings-->
+      <xs:element name="binary" type="binary"/>
+      <xs:element name="varbinary" type="binary"/>
+      <xs:element name="image" type="parameterlessType"/>
+
+      <!--Other data types-->
+      <xs:element name="rowversion" type="parameterlessType"/>
+      <xs:element name="hierarchyid" type="parameterlessStringType"/>
+      <xs:element name="uniqueidentifier" type="uniqueidentifier"/>
+      <xs:element name="sql_variant" type="parameterlessStringType"/>
+      <xs:element name="xml" type="parameterlessStringType"/>
+
+    </xs:choice>
+    <xs:attribute name="name" 
+          use="required" type="xs:string"/>
+    <xs:attribute name="allowNulls" 
+           use="optional" type="xs:boolean"/>
+  </xs:complexType>
+
+  <xs:complexType name="columnList">
+    <xs:sequence>
+      <xs:element name="column" maxOccurs="unbounded" 
+                     minOccurs="1" type="column"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!--Constraints-->
+  
+  <xs:simpleType name="sortOrder">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Ascending"/>
+      <xs:enumeration value="Descending"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="constraintColumn">
+    <xs:attribute name="name" use="required" type="xs:string"/>
+    <xs:attribute name="sortOrder" 
+            use="optional" type="sortOrder"/>
+  </xs:complexType>
+
+  <xs:complexType name="constraint">
+    <xs:sequence>
+      <xs:element name="column" maxOccurs="unbounded" 
+            minOccurs="1" type="constraintColumn"/>
+    </xs:sequence>
+    <xs:attribute name="name" use="required" type="xs:string"/>
+    <xs:attribute name="clustered" use="required" type="xs:boolean"/>
+    <xs:attribute name="fillFactor" use="optional" type="xs:integer"/>
+    <xs:attribute name="padIndex" use="optional" type="xs:boolean"/>
+  </xs:complexType>
+
+  <xs:complexType name="primaryKey">
+    <xs:sequence>
+      <xs:element name="key" maxOccurs="1" 
+             minOccurs="0" type="constraint"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="uniqueConstraints">
+    <xs:sequence>
+      <xs:element name="constraint" 
+            maxOccurs="unbounded" minOccurs="0" 
+            type="constraint"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="index">
+    <xs:complexContent>
+      <xs:extension base="constraint">
+        <xs:attribute name="unique" 
+              use="optional" type="xs:boolean"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="indexes">
+    <xs:sequence>
+      <xs:element name="index" maxOccurs="unbounded" 
+              minOccurs="0" type="index"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!--Relationships-->
+
+  <xs:complexType name="relationshipColumn">
+    <xs:attribute name="name" 
+              use="required" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="foreignKeyColumns">
+    <xs:sequence>
+      <xs:element name="column" maxOccurs="unbounded" 
+             minOccurs="1" type="relationshipColumn"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="primaryKeyTable">
+    <xs:sequence>
+      <xs:element name="column" maxOccurs="unbounded" 
+            minOccurs="1" type="relationshipColumn"/>
+    </xs:sequence>
+    <xs:attribute name="name" 
+            use="required" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="relationship">
+    <xs:sequence>
+      <xs:element name="foreignKeyColumns" 
+          maxOccurs="1" minOccurs="1" 
+          type="foreignKeyColumns"/>
+      <xs:element name="primaryKeyTable" maxOccurs="1" 
+             minOccurs="1" type="primaryKeyTable"/>
+    </xs:sequence>
+    <xs:attribute name="name" 
+                use="required" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="relationships">
+    <xs:sequence>
+      <xs:element name="relationship" maxOccurs="unbounded" 
+                 minOccurs="0" type="relationship" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="table">
+	<xs:element name="frequency" type="xs:integer" use="optional" />
+    <xs:sequence>
+      <xs:element name="columns" maxOccurs="1" 
+           minOccurs="1" type="columnList"/>
+      <xs:element name="primaryKey" maxOccurs="1" 
+           minOccurs="1" type="primaryKey"/>
+      <xs:element name="uniqueConstraints" maxOccurs="1" 
+           minOccurs="1" type="uniqueConstraints"/>
+      <xs:element name="indexes" maxOccurs="1" 
+           minOccurs="1" type="indexes"/>
+      <xs:element name="relationships" maxOccurs="1" 
+           minOccurs="1" type="relationships"/>
+    </xs:sequence>
+    <xs:attribute name="name" 
+          type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="tables">
+    <xs:sequence>
+      <xs:element name="table" maxOccurs="unbounded" 
+            minOccurs="0" type="table"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!--Stored procedures-->
+  <xs:simpleType name="platform">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SQLServer"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="procedure">
+    <xs:attribute name="name" 
+           type="xs:string" use="required"/>
+    <xs:attribute name="path" 
+           type="xs:string" use="required"/>
+    <xs:attribute name="platform" 
+           type="platform" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="procedures">
+    <xs:sequence>
+      <xs:element name="procedure" maxOccurs="unbounded" 
+             minOccurs="0" type="procedure"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="database">
+    <xs:sequence>
+      <xs:element name="tables" maxOccurs="1" 
+            minOccurs="1" type="tables"/>
+      <xs:element name="procedures" maxOccurs="1" 
+            minOccurs="1" type="procedures"/>
+    </xs:sequence>
+    <xs:attribute name="name" 
+           type="xs:string" use="required"/>
+    <xs:attribute name="ExampleFolderPath" 
+           type ="xs:string" use="optional"/>
+    <xs:attribute name="SQLServerOutputPath" 
+           type ="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <xs:element name="database" type="database"/>
+  <xs:element name="version" type="xs:integer" default="1"/>
+
+</xs:schema>
