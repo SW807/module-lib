@@ -33,6 +33,7 @@
 			<xs:element name="name" type="xs:string" />
 			<xs:element name="type" type="dataTypes" />
 		</xs:sequence>
+		<xs:attribute name="unit" type="xs:string"/>
 	</xs:complexType>
 
 	<xs:simpleType name="dataTypes">
