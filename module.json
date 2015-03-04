@@ -29,6 +29,10 @@
               "id": "/tables/0/columns/2",
               "type": "object",
               "properties": {
+                "_unit": {
+                  "id": "/tables/0/columns/2/_unit",
+                  "type": "string"
+                },
                 "name": {
                   "id": "/tables/0/columns/2/name",
                   "type": "string"
@@ -47,23 +51,39 @@
       "id": "/dependencies",
       "type": "object",
       "properties": {
-        "dependency": {
-          "id": "/dependencies/dependency",
+        "dependencies": {
+          "id": "/dependencies/dependencies",
           "type": "array",
           "items": {
-            "id": "/dependencies/dependency/0",
-            "type": "string"
+            "id": "/dependencies/dependencies/0",
+            "type": "object",
+            "properties": {
+              "name": {
+                "id": "/dependencies/dependencies/0/name",
+                "type": "string"
+              },
+              "version": {
+                "id": "/dependencies/dependencies/0/version",
+                "type": "string"
+              }
+            }
           }
         },
-        "dependencyGroup": {
-          "id": "/dependencies/dependencyGroup",
+        "dependencyGroups": {
+          "id": "/dependencies/dependencyGroups",
           "type": "array",
           "items": {
-            "id": "/dependencies/dependencyGroup/1",
-            "type": "array",
-            "items": {
-              "id": "/dependencies/dependencyGroup/1/0",
-              "type": "string"
+            "id": "/dependencies/dependencyGroups/1",
+            "type": "object",
+            "properties": {
+              "name": {
+                "id": "/dependencies/dependencyGroups/1/name",
+                "type": "string"
+              },
+              "version": {
+                "id": "/dependencies/dependencyGroups/1/version",
+                "type": "string"
+              }
             }
           }
         }
