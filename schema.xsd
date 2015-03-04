@@ -18,7 +18,7 @@
 		<xs:sequence>
 			<xs:element name="name" type="xs:string" />
 			<xs:element name="columns" type="columns" />
-			<xs:element name="frequency" type="xs:integer" minOccurs="0" maxOccurs="1" />
+			<!--<xs:element name="frequency" type="xs:integer" minOccurs="0" maxOccurs="1" /> -->
 	</xs:sequence>
 	</xs:complexType>
 

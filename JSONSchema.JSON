@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "",
+  "type": "object",
+  "properties": {
+    "_name": {
+      "id": "/_name",
+      "type": "string"
+    },
+    "_version": {
+      "id": "/_version",
+      "type": "string"
+    },
+    "tables": {
+      "id": "/tables",
+      "type": "array",
+      "items": {
+        "id": "/tables/0",
+        "type": "object",
+        "properties": {
+          "name": {
+            "id": "/tables/0/name",
+            "type": "string"
+          },
+          "columns": {
+            "id": "/tables/0/columns",
+            "type": "array",
+            "items": {
+              "id": "/tables/0/columns/2",
+              "type": "object",
+              "properties": {
+                "name": {
+                  "id": "/tables/0/columns/2/name",
+                  "type": "string"
+                },
+                "type": {
+                  "id": "/tables/0/columns/2/type",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "dependencies": {
+      "id": "/dependencies",
+      "type": "object",
+      "properties": {
+        "dependency": {
+          "id": "/dependencies/dependency",
+          "type": "array",
+          "items": {
+            "id": "/dependencies/dependency/0",
+            "type": "string"
+          }
+        },
+        "dependencyGroup": {
+          "id": "/dependencies/dependencyGroup",
+          "type": "array",
+          "items": {
+            "id": "/dependencies/dependencyGroup/1",
+            "type": "array",
+            "items": {
+              "id": "/dependencies/dependencyGroup/1/0",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "_name",
+    "_version",
+    "tables",
+    "dependencies"
+  ]
+}
