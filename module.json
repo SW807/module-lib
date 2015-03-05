@@ -1,99 +1,65 @@
 {
+  "id": "http://psylog.cs.aau.dk/module-schema#",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "",
+  "title": "Module",
   "type": "object",
   "properties": {
-    "_name": {
-      "id": "/_name",
+    "name": {
       "type": "string"
     },
     "_version": {
-      "id": "/_version",
-      "type": "string"
+      "type": "number",
+      "minimum": 0.0,
+      "exclusiveMinimum": true
     },
     "tables": {
-      "id": "/tables",
       "type": "array",
-      "items": {
-        "id": "/tables/0",
-        "type": "object",
-        "properties": {
-          "name": {
-            "id": "/tables/0/name",
-            "type": "string"
-          },
-          "columns": {
-            "id": "/tables/0/columns",
-            "type": "array",
-            "items": {
-              "id": "/tables/0/columns/2",
-              "type": "object",
-              "properties": {
-                "_unit": {
-                  "id": "/tables/0/columns/2/_unit",
-                  "type": "string"
-                },
-                "name": {
-                  "id": "/tables/0/columns/2/name",
-                  "type": "string"
-                },
-                "type": {
-                  "id": "/tables/0/columns/2/type",
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
+      "items": { "$ref": "#/definitions/table" },
+      "minItems": 1,
+      "uniqueItems": true
     },
     "dependencies": {
-      "id": "/dependencies",
-      "type": "object",
-      "properties": {
-        "dependencies": {
-          "id": "/dependencies/dependencies",
-          "type": "array",
-          "items": {
-            "id": "/dependencies/dependencies/0",
-            "type": "object",
-            "properties": {
-              "name": {
-                "id": "/dependencies/dependencies/0/name",
-                "type": "string"
-              },
-              "version": {
-                "id": "/dependencies/dependencies/0/version",
-                "type": "string"
-              }
-            }
-          }
-        },
-        "dependencyGroups": {
-          "id": "/dependencies/dependencyGroups",
-          "type": "array",
-          "items": {
-            "id": "/dependencies/dependencyGroups/1",
-            "type": "object",
-            "properties": {
-              "name": {
-                "id": "/dependencies/dependencyGroups/1/name",
-                "type": "string"
-              },
-              "version": {
-                "id": "/dependencies/dependencyGroups/1/version",
-                "type": "string"
-              }
-            }
-          }
-        }
-      }
+      "type": "array",
+      "items": { "type": "array", "items": [ { "$ref": "#/definitions/dependency" } ], "minItems": 1, "uniqueItems": true }
     }
   },
-  "required": [
-    "_name",
-    "_version",
-    "tables",
-    "dependencies"
-  ]
+  "additionalProperties": false,
+  "required": [ "name", "_version" ],
+  "definitions": {
+    "table": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "columns": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/column" },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false,
+      "required": [ "name", "columns" ]
+    },
+    "column": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "dataType": { "enum": [ "INTEGER", "REAL", "TEXT", "BLOB" ]},
+        "_unit": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [ "name", "dataType"]
+    },
+    "dependency": {
+      "properties": {
+        "name": { "type": "string" }
+      },
+      "additionalProperties": false,
+      "required": [ "name" ]
+    }
+  }
 }
