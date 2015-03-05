@@ -20,7 +20,7 @@
     },
     "dependencies": {
       "type": "array",
-      "items": { "type": "array", "items": [ { "$ref": "#/definitions/dependency" } ], "minItems": 1, "uniqueItems": true }
+      "items": { "type": "array", "items": { "$ref": "#/definitions/dependency" }, "minItems": 1, "uniqueItems": true }
     }
   },
   "additionalProperties": false,
