@@ -4,7 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-public abstract class SuperService extends Service{
+public abstract class SensorService extends Service{
 
     protected ISensor sensor;
 
