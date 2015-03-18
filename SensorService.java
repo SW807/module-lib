@@ -32,7 +32,6 @@ public abstract class SensorService extends Service{
     {
         sensor.sensorParameters(intent);
         sensor.startSensor();
-        //Skal være START_STICKY hvis servicen skal køre hele tiden, selv hvis den bliver dræbt. START_NOT_STICKY hjælper når man programmere.
-        return Service.START_NOT_STICKY;
+        return Service.START_STICKY;
     }
 }
