@@ -1,10 +1,15 @@
 package dk.aau.cs.psylog.module_lib;
 
 import android.app.IntentService;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.hardware.Sensor;
 import android.os.IBinder;
 import android.os.PowerManager;
+
+import dk.aau.cs.psylog.sensor.accelerometer.R;
 
 public abstract class SensorService extends IntentService {
     protected ISensor sensor;
@@ -42,7 +47,12 @@ public abstract class SensorService extends IntentService {
         if(intent.hasExtra("action"))
         {
             isCanceled = intent.getStringExtra("action").equals("cancel");
+            if(isCanceled)
+            {
+                stopForeground(true);
+            }
         }
+
         sensor.sensorParameters(intent);
         sensor.startSensor();
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
@@ -50,6 +60,17 @@ public abstract class SensorService extends IntentService {
                 "MyWakelockTag");
         wakeLock.acquire();
         super.onStartCommand(intent, flag, startid);
+        if(!isCanceled)
+        {
+            Notification notification = new Notification(R.drawable.ic_launcher, "the service description",
+                    System.currentTimeMillis());
+            Intent notificationIntent = new Intent(this, SensorService.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+            notification.setLatestEventInfo(this, "some info",
+                    "some notification message", pendingIntent);
+            startForeground(startid+1, notification);
+        }
+
         return Service.START_STICKY;
     }
 
