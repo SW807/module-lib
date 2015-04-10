@@ -9,8 +9,6 @@ import android.hardware.Sensor;
 import android.os.IBinder;
 import android.os.PowerManager;
 
-import dk.aau.cs.psylog.sensor.accelerometer.R;
-
 public abstract class SensorService extends IntentService {
     protected ISensor sensor;
 
@@ -62,7 +60,7 @@ public abstract class SensorService extends IntentService {
         super.onStartCommand(intent, flag, startid);
         if(!isCanceled)
         {
-            Notification notification = new Notification(R.drawable.ic_launcher, "the service description",
+            Notification notification = new Notification(android.R.drawable.sym_def_app_icon, "the service description",
                     System.currentTimeMillis());
             Intent notificationIntent = new Intent(this, SensorService.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
