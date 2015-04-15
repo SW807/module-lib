@@ -50,16 +50,16 @@ public abstract class SensorService extends IntentService {
                 stopForeground(true);
             }
         }
-
         sensor.sensorParameters(intent);
-        sensor.startSensor();
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                 "MyWakelockTag");
-        wakeLock.acquire();
+        if(!wakeLock.isHeld())
+            wakeLock.acquire();
         super.onStartCommand(intent, flag, startid);
         if(!isCanceled)
         {
+            sensor.startSensor();
             Notification notification = new Notification(android.R.drawable.sym_def_app_icon, "the service description",
                     System.currentTimeMillis());
             Intent notificationIntent = new Intent(this, SensorService.class);
